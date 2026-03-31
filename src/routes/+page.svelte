@@ -9,8 +9,14 @@
 	import { onMount } from 'svelte';
 	import { Toaster } from 'svelte-5-french-toast';
 	import Settings from '$lib/classes/Settings.svelte';
+	import { isMobilePlatform } from '$lib/platform/index';
+	import MobileApp from '$lib/mobile/components/MobileApp.svelte';
+
+	const isMobile = isMobilePlatform();
 
 	onMount(async () => {
+		if (isMobile) return; // Mobile has its own init in MobileApp
+
 		// Init le gestionnaire de shortcuts
 		ShortcutService.init();
 
@@ -29,19 +35,24 @@
 	});
 </script>
 
-<Toaster />
+{#if isMobile}
+	<Toaster />
+	<MobileApp />
+{:else}
+	<Toaster />
 
-<div class="flex flex-col h-screen overflow-hidden">
-	<!-- Barre de titre fixe -->
-	<TitleBar />
+	<div class="flex flex-col h-screen overflow-hidden">
+		<!-- Barre de titre fixe -->
+		<TitleBar />
 
-	<!-- Zone de contenu avec scroll -->
-	<main class="flex-1 overflow-auto mt-10">
-		{#if globalState.currentProject === null}
-			<Home />
-		{:else}
-			<ProjectEditor />
-		{/if}
-		<DonationFloatingButton />
-	</main>
-</div>
+		<!-- Zone de contenu avec scroll -->
+		<main class="flex-1 overflow-auto mt-10">
+			{#if globalState.currentProject === null}
+				<Home />
+			{:else}
+				<ProjectEditor />
+			{/if}
+			<DonationFloatingButton />
+		</main>
+	</div>
+{/if}

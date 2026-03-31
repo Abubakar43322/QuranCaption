@@ -15,7 +15,9 @@
 		"lint:fix": "prettier --write --ignore-unknown . && eslint . --fix",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
-		"tauri": "tauri"
+		"tauri": "tauri",
+		"build:mobile": "vite build && npx cap sync android",
+		"cap": "npx cap"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -47,6 +49,15 @@
 		"vitest-browser-svelte": "^0.1.0"
 	},
 	"dependencies": {
+		"@capacitor/android": "^8.3.0",
+		"@capacitor/camera": "^8.0.2",
+		"@capacitor/cli": "^8.3.0",
+		"@capacitor/core": "^8.3.0",
+		"@capacitor/filesystem": "^8.1.2",
+		"@capacitor/preferences": "^8.0.1",
+		"@capacitor/share": "^8.0.1",
+		"@ffmpeg/ffmpeg": "^0.12.15",
+		"@ffmpeg/util": "^0.12.2",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@tauri-apps/api": "^2.6.0",
 		"@tauri-apps/plugin-dialog": "^2.3.0",
@@ -68,6 +79,7 @@
 		"markdown-it-task-lists": "^2.1.1",
 		"material-icons": "^1.13.14",
 		"modern-screenshot": "^4.6.8",
+		"onnxruntime-web": "^1.24.3",
 		"plyr": "^3.7.8",
 		"posthog-js": "^1.318.1",
 		"reflect-metadata": "^0.2.2",

@@ -32,6 +32,22 @@
 	font-style: normal;
 }
 
+/* ── Mobile safe-area utilities ───────────────────────────────────────────── */
+.pt-safe {
+	padding-top: max(12px, env(safe-area-inset-top));
+}
+.pb-safe {
+	padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+/* Prevent text selection on tap in mobile UI */
+.mobile-app {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* ── Existing desktop styles ──────────────────────────────────────────────── */
 .reciters-font {
 	font-family: 'Reciters', sans-serif;
 }
