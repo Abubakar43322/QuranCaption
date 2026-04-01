@@ -73,7 +73,7 @@
 				if (elapsedMs >= MAX_DURATION_MS) stopRecording();
 			}, 100);
 		} catch {
-			errorMsg = 'Microphone access denied.';
+			errorMsg = 'Microphone access denied. On Android, allow the Microphone permission in Settings → Apps → QuranCaption → Permissions.';
 		}
 	}
 
@@ -82,25 +82,27 @@
 		mediaRecorder?.stop();
 	}
 
-	async function importAudio() {
-		const input = document.createElement('input');
-		input.type = 'file';
-		input.accept = 'audio/*,video/*';
-		input.onchange = async () => {
-			const file = input.files?.[0];
-			if (!file) return;
-			// Get duration
-			const url = URL.createObjectURL(file);
-			const audio = new Audio(url);
-			await new Promise<void>((res) => { audio.onloadedmetadata = () => res(); });
-			const durationMs = Math.min(audio.duration * 1000, MAX_DURATION_MS);
-			elapsedMs = durationMs;
-			audioBlob = file;
-			if (audioBlobUrl) URL.revokeObjectURL(audioBlobUrl);
-			audioBlobUrl = url;
-			recordState = 'done';
-		};
-		input.click();
+	// Bound to the hidden <input> in the DOM — required for Android WebView
+	let fileInputEl: HTMLInputElement | undefined = $state();
+
+	function importAudio() {
+		fileInputEl?.click();
+	}
+
+	async function onFileSelected(e: Event) {
+		const file = (e.currentTarget as HTMLInputElement).files?.[0];
+		if (!file) return;
+		const url = URL.createObjectURL(file);
+		const audio = new Audio(url);
+		await new Promise<void>((res) => { audio.onloadedmetadata = () => res(); });
+		const durationMs = Math.min(audio.duration * 1000, MAX_DURATION_MS);
+		elapsedMs = durationMs;
+		audioBlob = file;
+		if (audioBlobUrl) URL.revokeObjectURL(audioBlobUrl);
+		audioBlobUrl = url;
+		recordState = 'done';
+		// Reset so the same file can be picked again if needed
+		if (fileInputEl) fileInputEl.value = '';
 	}
 
 	async function startEditing() {
@@ -157,6 +159,9 @@
 		saving = false;
 	}
 </script>
+
+<!-- Hidden file input — must be in the DOM for Android WebView to open the file picker -->
+<input bind:this={fileInputEl} type="file" accept="audio/*,video/*" onchange={onFileSelected} class="hidden" />
 
 <div class="flex flex-col h-full">
 	<!-- Header -->
