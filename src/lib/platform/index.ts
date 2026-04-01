@@ -1,12 +1,9 @@
-/**
- * Platform detection utility.
- * Determines whether the app is running in a Capacitor (mobile) or Tauri (desktop) context.
- */
-
 export function isMobilePlatform(): boolean {
 	if (typeof window === 'undefined') return false;
-	// Capacitor injects this global
-	return !!(window as unknown as Record<string, unknown>)['Capacitor'];
+	// Real Capacitor app (Android/iOS)
+	if (!!(window as unknown as Record<string, unknown>)['Capacitor']) return true;
+	// Browser on a phone or narrow screen (e.g. Chrome DevTools mobile mode)
+	return window.innerWidth <= 768;
 }
 
 export function isDesktopPlatform(): boolean {
