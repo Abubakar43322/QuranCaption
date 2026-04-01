@@ -68,7 +68,7 @@
 <div class="flex flex-col h-full">
 	<!-- Header -->
 	<div class="flex items-center gap-3 px-4 pt-safe pb-3 bg-neutral-900 border-b border-neutral-800">
-		<button onclick={() => mobileState.navigate('style')} class="text-neutral-400 p-1">
+		<button onclick={() => mobileState.navigate('edit')} class="text-neutral-400 p-1">
 			<span class="material-icons">arrow_back</span>
 		</button>
 		<h1 class="text-base font-bold">Export</h1>

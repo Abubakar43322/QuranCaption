@@ -6,7 +6,7 @@
 
 	function openProject(project: MobileProject) {
 		mobileState.setProject(project);
-		mobileState.navigate('timeline');
+		mobileState.navigate('edit');
 	}
 
 	async function deleteProject(id: string, e: MouseEvent) {
@@ -36,7 +36,7 @@
 			<p class="text-xs text-neutral-400">Short-form Quran videos</p>
 		</div>
 		<button
-			onclick={() => mobileState.navigate('create')}
+			onclick={() => mobileState.navigate('new')}
 			class="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-3 py-2 rounded-xl active:scale-95 transition-transform"
 		>
 			<span class="material-icons text-base">add</span>
